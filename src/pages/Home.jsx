@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCategoryId } from '../redux/slices/filterSlice.js';
+import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice.js';
+import axios from 'axios';
 
 import Card from '../component/Card/Card';
 import Skeleton from '../component/Card/Skeleton';
@@ -11,7 +12,9 @@ import AppContext from '../context';
 
 const Home = () => {
 	const dispatch = useDispatch();
-	const { categoryId, sort } = useSelector((state) => state.filter);
+	const { categoryId, sort, currentPage } = useSelector(
+		(state) => state.filter
+	);
 	const sortType = sort.sortProperty;
 	// const sortType = useSelector((state) => state.filter.sort.sortProperty);
 
@@ -22,28 +25,33 @@ const Home = () => {
 	// 	name: 'популярности ASC',
 	// 	sortProperty: 'rating',
 	// });
-	const [currentPage, setCurrentPage] = React.useState(1); //Categories
+	// const [currentPage, setCurrentPage] = React.useState(1);
 	const { searchValue } = React.useContext(AppContext);
 
 	const onChangeCategory = (id) => {
 		dispatch(setCategoryId(id));
 	};
 
+	const onChangePage = (number) => {
+		dispatch(setCurrentPage(number));
+	};
+
 	React.useEffect(() => {
 		setIsLoading(true);
-		fetch(
-			`http://localhost:3001/pizzas?_page=${currentPage}&_limit=4&${
-				categoryId > 0 ? `category=${categoryId}` : ''
-			}&_sort=${sortType.replace('-', '')}&_order=${
-				sortType.includes('-') ? 'desc' : 'asc'
-			}&q=${searchValue}`
-		)
-			.then((res) => res.json())
-			.then((json) => {
-				setItems(json);
+
+		axios
+			.get(
+				`http://localhost:3001/pizzas?_page=${currentPage}&_limit=4&${
+					categoryId > 0 ? `category=${categoryId}` : ''
+				}&_sort=${sortType.replace('-', '')}&_order=${
+					sortType.includes('-') ? 'desc' : 'asc'
+				}&q=${searchValue}`
+			)
+			.then((res) => {
+				setItems(res.data);
 				setIsLoading(false);
-			})
-			.catch((error) => console.log(error));
+			});
+
 		window.scrollTo(0, 0);
 	}, [categoryId, sortType, searchValue, currentPage]);
 
@@ -66,7 +74,7 @@ const Home = () => {
 				</div>
 				<h2 className='content__title'>Все пиццы</h2>
 				<div className='content__items'>{isLoading ? skeleton : pizzas}</div>
-				<Pagination onChangePage={(number) => setCurrentPage(number)} />
+				<Pagination onChangePage={onChangePage} />
 			</div>
 		</div>
 	);
