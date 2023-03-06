@@ -33,6 +33,21 @@ body {
 		margin-top: 60px;
 		margin-bottom: 50px;
 	}
+	&__error-info {
+		margin: 100px auto;
+		width: 500px;
+		text-align: center;
+
+		h2 {
+			font-size: 36px;
+			font-weight: 700;
+			margin-bottom: 15px;
+		}
+
+		p {
+			font-size: 24px;
+		}
+	}
 
 	&__items {
 		display: grid;
