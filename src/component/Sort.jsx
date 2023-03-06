@@ -16,6 +16,7 @@ const Sort = () => {
 	const sort = useSelector((state) => state.filter.sort);
 
 	const [isVisible, setIsVisible] = React.useState(false);
+	const sortRef = React.useRef();
 
 	// const [selected, setSelected] = React.useState(0); //
 
@@ -25,8 +26,22 @@ const Sort = () => {
 		setIsVisible(false);
 	};
 
+	React.useEffect(() => {
+		const handleClickOutSide = (event) => {
+			if (!event.composedPath().includes(sortRef.current)) {
+				setIsVisible(false);
+			}
+		};
+
+		document.body.addEventListener('click', handleClickOutSide);
+
+		return () => {
+			document.body.removeEventListener('click', handleClickOutSide);
+		};
+	}, []);
+
 	return (
-		<div className='sort'>
+		<div ref={sortRef} className='sort'>
 			<div className='sort__label'>
 				<svg
 					width='10'

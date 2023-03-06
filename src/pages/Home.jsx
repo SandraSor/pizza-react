@@ -42,24 +42,29 @@ const Home = () => {
 		dispatch(setCurrentPage(number));
 	};
 
-	const fetchPizzas = () => {
+	const fetchPizzas = async () => {
 		setIsLoading(true);
 
 		const sortBy = sortType.replace('-', '');
 		const order = sortType.includes('-') ? 'desc' : 'asc';
 		const category = categoryId > 0 ? `category=${categoryId}` : '';
 
-		axios
-			.get(
+		try {
+			const res = await axios.get(
 				`http://localhost:3001/pizzas?_page=${currentPage}&_limit=4&${category}&_sort=${sortBy}&_order=${order}&q=${searchValue}`
-			)
-			.then((res) => {
-				setItems(res.data);
-				setIsLoading(false);
-			});
+			);
+			setItems(res.data);
+		} catch (error) {
+			console.error(error.message);
+		} finally {
+			setIsLoading(false);
+		}
 	};
 	//Если был первый рендер, то проверяем URL-параметры и сохраняем в редуксе
 	React.useEffect(() => {
+		// console.log('1 useEff window bef', isSearch.current);
+		isMounted.current = false;
+		isSearch.current = false;
 		if (window.location.search) {
 			const params = qs.parse(window.location.search.substring(1));
 
@@ -73,13 +78,15 @@ const Home = () => {
 			);
 			isSearch.current = true;
 		}
+		// console.log('1 useEff window aft', isSearch.current);
 	}, []);
 
 	//Проверка нужно ли вшивать в URL параметры: 1 рендер-НЕТ, дальнейшие ДА
 	React.useEffect(() => {
+		// console.log('2 useEff isMon bef', isMounted.current);
 		if (isMounted.current) {
 			const queryString = qs.stringify({
-				sortProperty: sort.sortProperty,
+				sortProperty: sortType,
 				categoryId,
 				currentPage,
 			});
@@ -87,20 +94,23 @@ const Home = () => {
 			navigate(`?${queryString}`);
 		}
 		isMounted.current = true;
+		// console.log('2 useEff isMon aft', isMounted.current);
 	}, [categoryId, sortType, currentPage]);
 
 	//Если был первый рендер, то запрашиваем наши пиццы
 	React.useEffect(() => {
 		window.scrollTo(0, 0);
+		// console.log('3-1 useEff fetchPizza bef', isSearch.current);
 		if (!isSearch.current) {
 			fetchPizzas();
 		}
 		isSearch.current = false;
+		// console.log('3-1 useEff fetchPizza aft', isSearch.current);
 	}, [categoryId, sortType, searchValue, currentPage]);
 
 	const pizzas = items.map((obj) => <Card key={obj.id} {...obj} />);
 
-	const skeleton = [...new Array(6)].map((_, index) => (
+	const skeleton = [...new Array(4)].map((_, index) => (
 		<Skeleton key={index} />
 	));
 
