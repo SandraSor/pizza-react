@@ -11,20 +11,16 @@ import './scss/app.scss';
 import ScrollToTop from './utils/ScrollToTop';
 
 function App() {
-	const [searchValue, setSearchValue] = React.useState('');
-
 	return (
 		<div className='wrapper'>
 			<BrowserRouter>
 				<ScrollToTop />
-				<AppContext.Provider value={{ searchValue, setSearchValue }}>
-					<Header />
-					<Routes>
-						<Route path='/' element={<Home />}></Route>
-						<Route path='/cart' element={<Cart />}></Route>
-						<Route path='*' element={<NotFound />}></Route>
-					</Routes>
-				</AppContext.Provider>
+				<Header />
+				<Routes>
+					<Route path='/' element={<Home />}></Route>
+					<Route path='/cart' element={<Cart />}></Route>
+					<Route path='*' element={<NotFound />}></Route>
+				</Routes>
 			</BrowserRouter>
 		</div>
 	);

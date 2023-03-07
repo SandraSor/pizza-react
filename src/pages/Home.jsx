@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
+	selectFilter,
 	setCategoryId,
 	setCurrentPage,
 	setFilters,
@@ -15,7 +16,7 @@ import Pagination from '../component/Pagination/Pagination';
 import Sort from '../component/Sort';
 import AppContext from '../context';
 
-import { fetchPizza } from '../redux/slices/pizzaSlice';
+import { fetchPizza, selectPizzaData } from '../redux/slices/pizzaSlice';
 
 import { list } from '../component/Sort';
 
@@ -25,14 +26,11 @@ const Home = () => {
 	const isSearch = React.useRef(false);
 	const isMounted = React.useRef(false);
 
-	const { categoryId, sort, currentPage } = useSelector(
-		(state) => state.filter
-	);
+	const { categoryId, sort, currentPage, searchValue } =
+		useSelector(selectFilter);
 	const sortType = sort.sortProperty;
 
-	const { items, status } = useSelector((state) => state.pizza);
-
-	const { searchValue } = React.useContext(AppContext);
+	const { items, status } = useSelector(selectPizzaData);
 
 	const onChangeCategory = (id) => {
 		dispatch(setCategoryId(id));
