@@ -14,7 +14,6 @@ import Skeleton from '../component/Card/Skeleton';
 import Categories from '../component/Categories';
 import Pagination from '../component/Pagination/Pagination';
 import Sort from '../component/Sort';
-import AppContext from '../context';
 
 import { fetchPizza, selectPizzaData } from '../redux/slices/pizzaSlice';
 
