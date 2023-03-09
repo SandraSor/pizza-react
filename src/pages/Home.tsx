@@ -19,7 +19,7 @@ import { fetchPizza, selectPizzaData } from '../redux/slices/pizzaSlice';
 
 import { list } from '../component/Sort';
 
-const Home = () => {
+const Home: React.FC = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const isSearch = React.useRef(false);
@@ -31,12 +31,12 @@ const Home = () => {
 
 	const { items, status } = useSelector(selectPizzaData);
 
-	const onChangeCategory = (id) => {
+	const onChangeCategory = (id: number) => {
 		dispatch(setCategoryId(id));
 	};
 
-	const onChangePage = (number) => {
-		dispatch(setCurrentPage(number));
+	const onChangePage = (page: number) => {
+		dispatch(setCurrentPage(page));
 	};
 
 	const getPizzas = async () => {
@@ -45,6 +45,7 @@ const Home = () => {
 		const category = categoryId > 0 ? `category=${categoryId}` : '';
 
 		dispatch(
+			//@ts-ignore
 			fetchPizza({
 				sortBy,
 				order,
@@ -102,7 +103,7 @@ const Home = () => {
 		// console.log('3-1 useEff fetchPizza aft', isSearch.current);
 	}, [categoryId, sortType, searchValue, currentPage]);
 
-	const pizzas = items.map((obj) => <Card key={obj.id} {...obj} />);
+	const pizzas = items.map((obj: any) => <Card key={obj.id} {...obj} />);
 
 	const skeleton = [...new Array(4)].map((_, index) => (
 		<Skeleton key={index} />

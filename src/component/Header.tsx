@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+
 import logo from '../assets/img/logo.png';
+
 import Search from './Search';
 import { useSelector } from 'react-redux';
 import { selectCart } from '../redux/slices/cartSlice';
@@ -8,7 +10,9 @@ import { selectCart } from '../redux/slices/cartSlice';
 const Header = () => {
 	const { items, totalPrice } = useSelector(selectCart);
 	const { pathname } = useLocation();
-	const addedCount = items ? items.reduce((sum, el) => sum + el.count, 0) : 0;
+	const addedCount = items
+		? items.reduce((sum: number, el: any) => sum + el.count, 0)
+		: 0;
 
 	return (
 		<div className='header'>

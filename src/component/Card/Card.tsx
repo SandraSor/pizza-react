@@ -5,12 +5,28 @@ import { Link } from 'react-router-dom';
 
 const typesName = ['тонкое', 'традиционное'];
 
-const Card = ({ id, title, price, imageUrl, sizes, types }) => {
+type CardProps = {
+	id: number;
+	title: string;
+	price: number;
+	imageUrl: string;
+	sizes: number[];
+	types: number[];
+};
+
+const Card: React.FC<CardProps> = ({
+	id,
+	title,
+	price,
+	imageUrl,
+	sizes,
+	types,
+}) => {
 	const dispatch = useDispatch();
 	const cartItem = useSelector(selectCartItemById(id));
 	// const [pizzaCount, setPizzaCount] = React.useState(0);
-	const [activeType, setActiveType] = React.useState(0);
-	const [activeSize, setActiveSize] = React.useState(0);
+	const [activeType, setActiveType] = React.useState<number>(0);
+	const [activeSize, setActiveSize] = React.useState<number>(0);
 
 	const addedCount = cartItem ? cartItem.count : 0;
 

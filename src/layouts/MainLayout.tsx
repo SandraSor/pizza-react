@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import Header from '../component/Header';
 import ScrollToTop from '../utils/ScrollToTop';
 
-const MainLayout = () => {
+const MainLayout: React.FC = () => {
 	return (
 		<div className='wrapper'>
 			<ScrollToTop />
