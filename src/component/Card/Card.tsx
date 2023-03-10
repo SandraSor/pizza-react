@@ -1,6 +1,10 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addItem, selectCartItemById } from '../../redux/slices/cartSlice';
+import {
+	addItem,
+	CartItem,
+	selectCartItemById,
+} from '../../redux/slices/cartSlice';
 import { Link } from 'react-router-dom';
 
 const typesName = ['тонкое', 'традиционное'];
@@ -31,13 +35,14 @@ const Card: React.FC<CardProps> = ({
 	const addedCount = cartItem ? cartItem.count : 0;
 
 	const onClickAdd = () => {
-		const item = {
+		const item: CartItem = {
 			id,
 			title,
 			price,
 			imageUrl,
 			type: typesName[activeType],
 			size: sizes[activeSize],
+			count: 0, //
 		};
 		dispatch(addItem(item));
 	};
