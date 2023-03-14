@@ -5,7 +5,7 @@ type SkeletonProps = {
 	key: number;
 };
 
-const Skeleton: React.FC<SkeletonProps> = (props) => (
+export const Skeleton: React.FC<SkeletonProps> = (props) => (
 	<ContentLoader
 		className='pizza-block'
 		speed={2}
@@ -22,5 +22,3 @@ const Skeleton: React.FC<SkeletonProps> = (props) => (
 		<rect x='125' y='419' rx='30' ry='30' width='155' height='40' />
 	</ContentLoader>
 );
-
-export default Skeleton;

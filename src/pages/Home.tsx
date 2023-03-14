@@ -1,7 +1,6 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectFilter } from '../redux/filter/selector';
-import { FilterSliceState } from '../redux/filter/types';
 import {
 	setCategoryId,
 	setCurrentPage,
@@ -10,11 +9,7 @@ import {
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 
-import Card from '../component/Card/Card';
-import Skeleton from '../component/Card/Skeleton';
-import Categories from '../component/Categories';
-import Pagination from '../component/Pagination/Pagination';
-import Sort from '../component/Sort';
+import { Skeleton, Card, Categories, Pagination, Sort } from '../component';
 
 import { fetchPizza } from '../redux/pizza/asyncActions';
 import { FetchPizzasArgs } from '../redux/pizza/types';

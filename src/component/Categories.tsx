@@ -14,7 +14,7 @@ const categories = [
 	'Закрытые',
 ];
 
-const Categories: React.FC<CategoriesProps> = React.memo(
+export const Categories: React.FC<CategoriesProps> = React.memo(
 	({ value, onChangeCategory }) => {
 		// const onClickCategories = (index) => {
 		// 	setActiveIndex(index);
@@ -37,5 +37,3 @@ const Categories: React.FC<CategoriesProps> = React.memo(
 		);
 	}
 );
-
-export default Categories;

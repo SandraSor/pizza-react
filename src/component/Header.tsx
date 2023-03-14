@@ -3,11 +3,11 @@ import { Link, useLocation } from 'react-router-dom';
 
 import logo from '../assets/img/logo.png';
 
-import Search from './Search';
+import { Search } from './';
 import { useSelector } from 'react-redux';
 import { selectCart } from '../redux/cart/selectors';
 
-const Header = () => {
+export const Header: React.FC = () => {
 	const { items, totalPrice } = useSelector(selectCart);
 	const { pathname } = useLocation();
 	const isMounted = React.useRef(false);
@@ -81,5 +81,3 @@ const Header = () => {
 		</div>
 	);
 };
-
-export default Header;
