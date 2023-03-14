@@ -1,12 +1,12 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { selectFilter } from '../redux/filter/selector';
+import { FilterSliceState } from '../redux/filter/types';
 import {
-	FilterSliceState,
-	selectFilter,
 	setCategoryId,
 	setCurrentPage,
 	setFilters,
-} from '../redux/slices/filterSlice';
+} from '../redux/filter/slice';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,11 +16,9 @@ import Categories from '../component/Categories';
 import Pagination from '../component/Pagination/Pagination';
 import Sort from '../component/Sort';
 
-import {
-	fetchPizza,
-	FetchPizzasArgs,
-	selectPizzaData,
-} from '../redux/slices/pizzaSlice';
+import { fetchPizza } from '../redux/pizza/asyncActions';
+import { FetchPizzasArgs } from '../redux/pizza/types';
+import { selectPizzaData } from '../redux/pizza/selector';
 
 import { list } from '../component/Sort';
 import { useAppDispatch } from '../redux/store';
@@ -37,9 +35,9 @@ const Home: React.FC = () => {
 
 	const { items, status } = useSelector(selectPizzaData);
 
-	const onChangeCategory = (id: number) => {
+	const onChangeCategory = React.useCallback((id: number) => {
 		dispatch(setCategoryId(id));
-	};
+	}, []);
 
 	const onChangePage = (page: number) => {
 		dispatch(setCurrentPage(page));
@@ -123,7 +121,7 @@ const Home: React.FC = () => {
 			<div className='container'>
 				<div className='content__top'>
 					<Categories value={categoryId} onChangeCategory={onChangeCategory} />
-					<Sort />
+					<Sort value={sort} />
 				</div>
 				<h2 className='content__title'>Все пиццы</h2>
 				{status === 'error' ? (

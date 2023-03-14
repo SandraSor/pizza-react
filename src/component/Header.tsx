@@ -5,14 +5,24 @@ import logo from '../assets/img/logo.png';
 
 import Search from './Search';
 import { useSelector } from 'react-redux';
-import { selectCart } from '../redux/slices/cartSlice';
+import { selectCart } from '../redux/cart/selectors';
 
 const Header = () => {
 	const { items, totalPrice } = useSelector(selectCart);
 	const { pathname } = useLocation();
+	const isMounted = React.useRef(false);
+
 	const addedCount = items
 		? items.reduce((sum: number, el: any) => sum + el.count, 0)
 		: 0;
+
+	React.useEffect(() => {
+		if (isMounted.current) {
+			const json = JSON.stringify(items);
+			localStorage.setItem('cart', json);
+		}
+		isMounted.current = true;
+	}, [items]);
 
 	return (
 		<div className='header'>
@@ -26,7 +36,7 @@ const Header = () => {
 						</div>
 					</div>
 				</Link>
-				<Search />
+				{pathname !== '/cart' && <Search />}
 				<Link to='/cart'>
 					<div className='header__cart'>
 						{pathname !== '/cart' && (
